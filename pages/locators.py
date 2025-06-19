@@ -8,9 +8,10 @@ class LoginPageLocators():
     LOGIN_FORM = (By.CSS_SELECTOR, "#login_form")
     REGISTER_FORM = (By.CSS_SELECTOR, "#register_form")
 
-class CatalogPage():
+class ProductPageLocators():
     BASKET_BUTTON = (By.CSS_SELECTOR, "button.btn-add-to-basket")
     BOOK_NAME = (By.CSS_SELECTOR, "ul.breadcrumb li.active")
     BOOK_IN_BASKET = (By.CSS_SELECTOR, "#messages strong")
     BOOK_PRICE = (By.CSS_SELECTOR, ".product_main p.price_color")
     PRICE_IN_BASKET = (By.CSS_SELECTOR, ".alertinner p strong")
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, "#messages .alert-success")
