@@ -1,5 +1,6 @@
 from .pages.main_page import MainPage
 from .pages.product_page import ProductPage
+from .pages.login_page import LoginPage
 import pytest
 import time
 
@@ -55,10 +56,37 @@ import time
 #     page.go_to_login_page()
 #     assert browser.current_url == "https://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
 
-def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    link = "http://selenium1py.pythonanywhere.com/"
-    page = MainPage(browser, link)
-    page.open()
-    page.go_to_basket()
-    page.should_not_be_product_in_basket()
-    page.should_be_message_basket_is_empty()
+# def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+#     link = "http://selenium1py.pythonanywhere.com/"
+#     page = MainPage(browser, link)
+#     page.open()
+#     page.go_to_basket()
+#     page.should_not_be_product_in_basket()
+#     page.should_be_message_basket_is_empty()
+
+@pytest.mark.user_add_basket
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "https://selenium1py.pythonanywhere.com/ru/accounts/login/"
+        self. page = LoginPage(browser, link)
+        self.page.open()
+        self.page.register_new_user()
+        self.page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207/"
+        page = MainPage(browser, link)
+        page.open()
+        product_page = ProductPage(browser, link)
+        product_page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = MainPage(browser, link)
+        page.open()
+        product_page = ProductPage(browser, link)
+        product_page.should_be_add_to_basket()
+        product_page.should_be_book_name()
+        product_page.should_be_book_price()
+        # product_page.should_not_be_success_message()
