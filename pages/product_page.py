@@ -1,13 +1,16 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 class ProductPage(BasePage):
     def should_be_add_to_basket(self):
         basket_button = self.browser.find_element(*ProductPageLocators.BASKET_BUTTON)
-        # assert basket_button
         basket_button.click()
 
     def should_be_book_name(self):
+        WebDriverWait(self.browser, timeout=3).until(EC.presence_of_element_located((By.CSS_SELECTOR, "ul.breadcrumb li.active")))
         book_name = self.browser.find_element(*ProductPageLocators.BOOK_NAME)
         book_in_basket = self.browser.find_element(*ProductPageLocators.BOOK_IN_BASKET)
         assert book_name.text == book_in_basket.text

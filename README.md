@@ -1,1 +1,0 @@
-# stepik_finish_project
